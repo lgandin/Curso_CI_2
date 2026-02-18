@@ -4,9 +4,15 @@ import (
 	"fmt"
 	"log"
 	"os"
+
 	"github.com/guilhermeonrails/api-go-gin/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+)
+
+var (
+	DB  *gorm.DB
+	err error
 )
 
 func ConectaComBancoDeDados() {
