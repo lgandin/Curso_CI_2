@@ -13,7 +13,13 @@ jobs:
 
     - name: Preparar ambiente para o Docker Build
       uses: docker/setup-buildx-action@v3.12.0
-
+      
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v7.0.0
+      with:
+        # Name of the artifact to download. If unspecified, all artifacts for the run are downloaded.
+        name: artefato_go
+             
     - name: Docker Login
       # You may pin to the exact commit or the version.
       # uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9
