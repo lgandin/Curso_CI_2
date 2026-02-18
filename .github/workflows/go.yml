@@ -9,47 +9,59 @@ on:
 jobs:
 
   test:
-    runs-on: ${{ matrix.os }}
-    env: 
-      DB_HOST: localhost 
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: root
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U root"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DB_HOST: localhost
       DB_PORT: 5432
       DB_USER: root
-      DB_PASSWORD: root 
+      DB_PASSWORD: root
       DB_NAME: root
-      
+
     strategy:
       matrix:
-        go_version: ['1.18', '1.17', '>=1.18']
-        os: ['ubuntu-latest', 'ubuntu-18.04']
+        go_version: ['1.17', '1.18']
+
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: ${{ matrix.go_version }}
-      
-    - name: Build-DB
-      run: docker-compose build
-      
-    - name: Create-DB
-      run: docker-compose up -d
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go_version }}
 
-    - name: Test
-      run: go test -v main_test.go 
-      
-  
+      - name: Wait for database
+        run: sleep 10
+
+      - name: Test
+        run: go test ./... -v
+
+
   build:
     needs: test
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: ['ubuntu-latest', 'ubuntu-18.04']
+    runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Build
-      run: go build -v main.go
-      
+      - uses: actions/checkout@v3
+      - name: Build
+        run: go build -v main.go
+
+
   docker:
     needs: build
     uses: ./.github/workflows/Docker.yml
