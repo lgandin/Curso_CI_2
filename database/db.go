@@ -1,3 +1,5 @@
+package database
+
 import (
 	"fmt"
 	"log"
