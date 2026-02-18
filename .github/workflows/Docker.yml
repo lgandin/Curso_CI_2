@@ -34,4 +34,4 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: leonardo-gandin/go_ci:${{github.ref_name}}             
+        tags: lgandin/go_ci:${{github.ref_name}}   
