@@ -36,7 +36,7 @@ jobs:
           export DB_NAME=${{ secrets.DB_NAME }}
           export DB_PORT=${{ secrets.DB_PORT }}
           chmod +x main
-          nohup ./main &
+          nohup ./main > nohup.out 2> nohup.err < /dev/null &
 
 
           
