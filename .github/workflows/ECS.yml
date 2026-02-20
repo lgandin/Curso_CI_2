@@ -23,7 +23,7 @@ jobs:
       with:
         task-definition: task-definition.json
         container-name: Go
-        image: lgandin/go_ci:Projeto_base
+        image: lgandin/go_ci:${{github.run_number}}
 
         environment-variables: | 
           DB_HOST=${{ secrets.DB_HOST }}
