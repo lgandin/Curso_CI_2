@@ -10,5 +10,9 @@ ENV DB_USER=root DB_PASSWORD=root DB_NAME=root
 
 COPY ./main main
 
-ENTRYPOINT ["./main"]
+RUN chmod +x main
+
+COPY ./templates/ templates/
+
+CMD ["./main"]
 
