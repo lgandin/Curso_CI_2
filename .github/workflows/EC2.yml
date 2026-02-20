@@ -1,3 +1,4 @@
+# Desativado, usando ECS
 name: EC2
 
 on:
