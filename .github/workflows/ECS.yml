@@ -47,8 +47,9 @@ jobs:
       #Requisição teste se o container esta atualizado
     - name: Requisicao roolback
       continue-on-error: true
-      run: sleep 30s ; wget LB-Api-go-1374768397.sa-east-1.elb.amazonaws.com:8000/bruno
-    
+      run: echo "REQUEST=0" >> $GITHUB_ENV ; sleep 30s ; wget LB-Api-go-1374768397.sa-east-1.elb.amazonaws.com:8000/bruno || 
+
+       
     #voltar a tarefa antiga em caso de problemas.
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v2
