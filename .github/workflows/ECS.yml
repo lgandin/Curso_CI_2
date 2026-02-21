@@ -16,7 +16,10 @@ jobs:
 
     - name: Obtendo arquivo da tarefa
       run: aws ecs describe-task-definition --task-definition task_api-go --query taskDefinition > task-definition.json
-        
+      
+    - name: Copia arquivo da tarefa
+      run: aws ecs describe-task-definition --task-definition task_api-go --query taskDefinition > task-definition.json.old  
+      
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -41,3 +44,30 @@ jobs:
         cluster: api-go
         wait-for-service-stability: true
           
+      #Requisição teste se o container esta atualizado
+    - name: Requisicao roolback
+      continue-on-error: true
+      run: sleep 30s ; wget LB-Api-go-1374768397.sa-east-1.elb.amazonaws.com:8000/bruno
+    
+    #voltar a tarefa antiga em caso de problemas.
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+      with:
+        task-definition: task-definition.old
+        service: task_api-go-service-dejx0ezr
+        cluster: api-go
+        wait-for-service-stability: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
