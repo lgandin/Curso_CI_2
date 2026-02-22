@@ -63,7 +63,7 @@ jobs:
  
     - name: Executar Locust | rodar teste de carga | pega o id da url usando a saida
       run: |
-        locust -f locustfile.py --headless -u 10 -r 2 --run_time 30s --host http://${{ steps.URL.outputs.stdout }}    
+       sleep 60s ;  locust -f locustfile.py --headless -u 10 -r 2 --run_time 30s --host http://${{ steps.URL.outputs.stdout }}    
 
 
 
