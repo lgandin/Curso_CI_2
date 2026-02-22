@@ -36,6 +36,7 @@ jobs:
 
     - name: pegar a saida dos comandos acima
       run: echo "$(terraform -chdir=Infra_ci/env/Homolog/ output -raw IP_alb)"
+      id: URL
 
     - name: Setup Python
       uses: actions/setup-python@v6.2.0
@@ -59,7 +60,10 @@ jobs:
         echo "class WebsiteUser(HttpUser):" >> locustfile.py
         echo "	tasks = [UserTasks]" >> locustfile.py
         echo "  wait_time = between(1, 5)" >> locustfile.py
-        
+ 
+    - name: Executar Locust | rodar teste de carga | pega o id da url usando a saida
+      run: |
+        locust -f locustfile.py --headless -u 10 -r 2 --run_time 30s --host http://${{ steps.URL.outputs.stdout }}    
 
 
 
