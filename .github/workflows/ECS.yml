@@ -43,15 +43,17 @@ jobs:
         service: task_api-go-service-dejx0ezr
         cluster: api-go
         wait-for-service-stability: true
-          
+
+      #ROLLBACK
       #Requisição teste se o container esta atualizado
     - name: Requisicao roolback
       continue-on-error: true
-      run: echo "REQUEST=0" >> $GITHUB_ENV ; sleep 30s ; wget LB-Api-go-1374768397.sa-east-1.elb.amazonaws.com:8000/bruno || 
+      run: echo "REQUEST=0" >> $GITHUB_ENV ; sleep 30s ; wget LB-Api-go-1374768397.sa-east-1.elb.amazonaws.com:8000/bruno || echo "REQUEST=1" >> $GITHUB_ENV
 
        
     #voltar a tarefa antiga em caso de problemas.
     - name: Deploy Amazon ECS task definition
+      if: ${{ env.REQUEST != 0 }}
       uses: aws-actions/amazon-ecs-deploy-task-definition@v2
       with:
         task-definition: task-definition.old
