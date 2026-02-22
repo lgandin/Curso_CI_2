@@ -17,6 +17,11 @@ var (
 
 func ConectaComBancoDeDados() {
 
+    sslMode := os.Getenv("DB_SSLMODE")
+    if sslMode == "" {
+        sslMode = "require"
+    }
+	
 	stringDeConexao := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
 		os.Getenv("DB_HOST"),
