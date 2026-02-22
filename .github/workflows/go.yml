@@ -32,7 +32,7 @@ jobs:
       DB_USER: root
       DB_PASSWORD: root
       DB_NAME: root
-
+      DB_SSLMODE: disable 
     strategy:
       matrix:
         go_version: ['1.17', '1.18']
