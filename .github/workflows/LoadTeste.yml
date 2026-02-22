@@ -65,7 +65,8 @@ jobs:
       run: |
        sleep 60s ;  locust -f locustfile.py --headless -u 10 -r 2 --run_time 30s --host http://${{ steps.URL.outputs.stdout }}    
 
-
+    - name: destroy terraform derrubar a infra
+      run: terraform -chdir=Infra_ci/env/Homolog/ destroy -auto-approve
 
           
           
