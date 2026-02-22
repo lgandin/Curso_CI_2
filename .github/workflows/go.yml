@@ -83,3 +83,11 @@ jobs:
     needs: docker
     uses: ./.github/workflows/ECS.yml
     secrets: inherit
+
+  teste-de-load:
+    needs: docker
+    #para somente executar em hml, usar a branch de hml aqui nao tem essa q coloquei, mas serve como exemplo
+    if: ${{ github.ref_name == 'homologacao' }}
+    uses: ./.github/workflows/LoadTeste.yml
+    secrets: inherit
+    
